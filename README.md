@@ -1,2 +1,3 @@
-# Kryptografia-i-bezpiecze-stwo-system-w-informatycznych
+# Kryptografia i bezpieczeństwo system w informatycznych
+
 Zadania z Kryptografii i bezpieczeństwa systemów informatycznych
