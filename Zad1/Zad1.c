@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+//////////////////////////////////////////////////////////////
+///////////////////////funkcje szyfrujące/////////////////////
+//////////////////////////////////////////////////////////////
 char szyfrujcezar(char znak, int key){
   int x,sum,z;
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
@@ -100,9 +102,41 @@ char szyfrujafiniczny(char znak, int key1, int key2){
   }
 }
 
-char odszyfrujafiniczny(){
+char odszyfrujafiniczny(char znak, int key1, int key2){
+  int x,sum,z;
+  char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
+  char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
 
+  for(x=0; x<=25; x++){
+    if (znak >= 'A' && znak <= 'Z'){
+      for(z=0; z<=25; z++){
+        a[z]=d[z];
+      }
+    }
+    if(znak == '\n'){
+      znak = '\n';
+      return znak;
+    }
+    if(znak == ' '){
+      znak = ' ';
+      return znak;
+    }
+    if(znak == a[x]){
+      sum = (1/key1 * (x - key2)) % 26;
+      if(sum>25){
+        znak = a[sum-25];
+        return znak;
+      } else if(sum <= 25){
+      znak = a[sum];
+      return znak;
+      }
+      if(znak != a[x]){
+        break;
+      }
+    }
+  }
 }
+
 //////////////////////////////////////////////////////////////
 ///////////////////////funkcje wykonujące/////////////////////
 //////////////////////////////////////////////////////////////
@@ -133,7 +167,7 @@ int wykonuj(int parametr){
         if(feof(plain)){
           break;
         }
-        char wynik = szyfrujcezar(znak, kluczyk);
+        wynik = szyfrujcezar(znak, kluczyk);
         fprintf (crypto, "%c", wynik);
     }
 
@@ -155,8 +189,8 @@ int wykonuj(int parametr){
           if(feof(crypto)){
             break;
           }
-          char wynik2 = odszyfrujcezar(znak, kluczyk);
-          fprintf (decrypt, "%c", wynik2);
+          wynik = odszyfrujcezar(znak, kluczyk);
+          fprintf (decrypt, "%c", wynik);
         }
     // case 3:     //kryptoanaliza z jawnym Cezar
     // case 4:     //kryptoanaliza w oparciu o kryptogram Cezar
@@ -181,10 +215,30 @@ int wykonuj(int parametr){
         if(feof(plain)){
           break;
         }
-        char wynik3 = szyfrujafiniczny(znak, kluczyk1, kluczyk2);
-        fprintf (crypto, "%c", wynik3);
+        wynik = szyfrujafiniczny(znak, kluczyk1, kluczyk2);
+        fprintf (crypto, "%c", wynik);
       }
-    // case 6:     //odszyfruj afiniczny
+    case 6:     //odszyfruj afiniczny
+      //odczyt kluczy
+      fkey=fopen("key.txt","r");
+      fscanf(fkey,"%d%d",&kluczyk1, &kluczyk2);
+      if(kluczyk1<-25 || kluczyk1>25 || kluczyk2<-25 || kluczyk2>25){
+        printf("Błąd w pliku z kluczami. Do poprawy\n");
+        exit(1);
+      }
+      if((decrypt=fopen("decrypt.txt", "w"))==NULL) {
+       printf ("Nie mogę otworzyć pliku decrypt.txt do zapisu!\n");
+       exit(1);
+       }
+       crypto=fopen("crypto.txt","r");
+       while(crypto != NULL){
+         znak = fgetc(crypto);
+         if(feof(crypto)){
+           break;
+         }
+         wynik = odszyfrujafiniczny(znak, kluczyk1, kluczyk2);
+         fprintf (decrypt, "%c", wynik);
+       }
     // case 7:     //kryptoanaliza z jawnym afiniczny
     // case 8:     //kryptoanaliza w oparciu o kryptogram afiniczny
   }
