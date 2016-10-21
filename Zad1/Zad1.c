@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int szyfrujcezar(char znak, int key){
+char szyfrujcezar(char znak, int key){
   int x,sum,z;
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
   char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
@@ -35,7 +35,7 @@ int szyfrujcezar(char znak, int key){
     }
   }
 }
-int odszyfrujcezar(char znak, int key){
+char odszyfrujcezar(char znak, int key){
   int x,sum,z;
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
   char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
@@ -63,6 +63,45 @@ int odszyfrujcezar(char znak, int key){
       }
     }
   }
+}
+
+char szyfrujafiniczny(char znak, int key1, int key2){
+  int x,sum,z;
+  char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
+  char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
+
+  for(x=0; x<=25; x++){
+    if (znak >= 'A' && znak <= 'Z'){
+      for(z=0; z<=25; z++){
+        a[z]=d[z];
+      }
+    }
+    if(znak == '\n'){
+      znak = '\n';
+      return znak;
+    }
+    if(znak == ' '){
+      znak = ' ';
+      return znak;
+    }
+    if(znak == a[x]){
+      sum = ((key1 * x) + key2) % 26;
+      if(sum>25){
+        znak = a[sum-25];
+        return znak;
+      } else if(sum <= 25){
+      znak = a[sum];
+      return znak;
+      }
+      if(znak != a[x]){
+        break;
+      }
+    }
+  }
+}
+
+char odszyfrujafiniczny(){
+
 }
 //////////////////////////////////////////////////////////////
 ///////////////////////funkcje wykonujące/////////////////////
@@ -130,6 +169,11 @@ int wykonuj(int parametr){
         printf("Błąd w pliku z kluczami. Do poprawy\n");
         exit(1);
       }
+      //plik z szyfrem
+      if((crypto=fopen("crypto.txt", "w"))==NULL) {
+       printf ("Nie mogę otworzyć pliku crypto.txt do zapisu!\n");
+       exit(1);
+       }
       //odczyt tekstu jawnego
       plain=fopen("plain.txt","r");
       while(plain != NULL){
@@ -137,7 +181,8 @@ int wykonuj(int parametr){
         if(feof(plain)){
           break;
         }
-
+        char wynik3 = szyfrujafiniczny(znak, kluczyk1, kluczyk2);
+        fprintf (crypto, "%c", wynik3);
       }
     // case 6:     //odszyfruj afiniczny
     // case 7:     //kryptoanaliza z jawnym afiniczny
