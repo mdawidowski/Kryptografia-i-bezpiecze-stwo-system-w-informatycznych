@@ -66,7 +66,33 @@ char odszyfrujcezar(char znak, int key){
     }
   }
 }
+char kryptojawnycezar(char znak, char znak2){
+  int x,z,klucz,ret1, ret2;
+  char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
+  char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
+  for(x=0; x<=25; x++){
+    if (znak >= 'A' && znak <= 'Z'){
+      for(z=0; z<=25; z++){
+        a[z]=d[z];
+      }
+    }
+    if(znak == a[x]){
+      ret1 = x;
+    }
+    if(znak2 == a[x]){
+      ret2 = x;
+    }
+  }
+  if(ret1>ret2){
+    klucz = ret1 - ret2;
+  } else if(ret2<ret1){
+    klucz = ret2 - ret1;
+  }
+  return klucz;
+}
+char kryptobezcezar(){
 
+}
 char szyfrujafiniczny(char znak, int key1, int key2){
   int x,sum,z;
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
@@ -142,7 +168,7 @@ char odszyfrujafiniczny(char znak, int key1, int key2){
 //////////////////////////////////////////////////////////////
 int wykonuj(int parametr){
   int kluczyk, kluczyk1, kluczyk2;
-  char znak,wynik;
+  char znak,znak2,znak3,wynik;
   FILE *fkey,*plain,*crypto,*decrypt;
 
   switch (parametr) {
@@ -169,8 +195,8 @@ int wykonuj(int parametr){
         }
         wynik = szyfrujcezar(znak, kluczyk);
         fprintf (crypto, "%c", wynik);
-    }
-
+      }
+      break;
      case 2:     //odszyfruj Cezar
        //odczyt klucza
        fkey=fopen("key.txt","r");
@@ -192,7 +218,28 @@ int wykonuj(int parametr){
           wynik = odszyfrujcezar(znak, kluczyk);
           fprintf (decrypt, "%c", wynik);
         }
-    // case 3:     //kryptoanaliza z jawnym Cezar
+        break;
+    case 3:     //kryptoanaliza z jawnym Cezar
+      if((decrypt=fopen("decrypt.txt", "w"))==NULL) {
+       printf ("Nie mogę otworzyć pliku decrypt.txt do zapisu!\n");
+       exit(1);
+       }
+      plain=fopen("plain.txt","r");
+      znak = fgetc(plain);
+      crypto=fopen("crypto.txt","r");
+      znak2= fgetc(crypto);
+      fclose(crypto);
+      crypto=fopen("crypto.txt","r");
+      kluczyk = kryptojawnycezar(znak, znak2);
+      while(crypto != NULL){
+        znak3 = fgetc(crypto);
+        if(feof(crypto)){
+          break;
+        }
+        wynik = odszyfrujcezar(znak3, kluczyk);
+        fprintf (decrypt, "%c", wynik);
+      }
+      break;
     // case 4:     //kryptoanaliza w oparciu o kryptogram Cezar
 
     case 5:     //szyfruj afiniczny
@@ -218,6 +265,7 @@ int wykonuj(int parametr){
         wynik = szyfrujafiniczny(znak, kluczyk1, kluczyk2);
         fprintf (crypto, "%c", wynik);
       }
+      break;
     case 6:     //odszyfruj afiniczny
       //odczyt kluczy
       fkey=fopen("key.txt","r");
@@ -239,6 +287,7 @@ int wykonuj(int parametr){
          wynik = odszyfrujafiniczny(znak, kluczyk1, kluczyk2);
          fprintf (decrypt, "%c", wynik);
        }
+       break;
     // case 7:     //kryptoanaliza z jawnym afiniczny
     // case 8:     //kryptoanaliza w oparciu o kryptogram afiniczny
   }
