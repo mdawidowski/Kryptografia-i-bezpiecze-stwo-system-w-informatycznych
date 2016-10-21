@@ -66,29 +66,38 @@ char odszyfrujcezar(char znak, int key){
     }
   }
 }
-char kryptojawnycezar(char znak, char znak2){
+int kryptojawnycezar(char znak, char znak2){
   int x,z,klucz,ret1, ret2;
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
   char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
   for(x=0; x<=25; x++){
     if (znak >= 'A' && znak <= 'Z'){
       for(z=0; z<=25; z++){
-        a[z]=d[z];
+        a[z]=d[z];  }
       }
-    }
     if(znak == a[x]){
       ret1 = x;
+      printf("%d\n", ret1);
     }
+  }
+  for(x=0; x<=25; x++){
+    if (znak2 >= 'A' && znak2 <= 'Z'){
+      for(z=0; z<=25; z++){
+        a[z]=d[z];  }
+      }
     if(znak2 == a[x]){
       ret2 = x;
+      printf("%d\n",ret2);
     }
   }
   if(ret1>ret2){
-    klucz = ret1 - ret2;
-  } else if(ret2<ret1){
-    klucz = ret2 - ret1;
+    klucz = ret1-ret2;
+    return klucz;
+  } else if(ret2>ret1){
+    klucz = ret2-ret1;
+    return klucz;
   }
-  return klucz;
+
 }
 char kryptobezcezar(){
 
@@ -231,6 +240,7 @@ int wykonuj(int parametr){
       fclose(crypto);
       crypto=fopen("crypto.txt","r");
       kluczyk = kryptojawnycezar(znak, znak2);
+      printf("%d",kluczyk);
       while(crypto != NULL){
         znak3 = fgetc(crypto);
         if(feof(crypto)){
