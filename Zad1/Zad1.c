@@ -77,7 +77,6 @@ int kryptojawnycezar(char znak, char znak2){
       }
     if(znak == a[x]){
       ret1 = x;
-      printf("%d\n", ret1);
     }
   }
   for(x=0; x<=25; x++){
@@ -87,7 +86,6 @@ int kryptojawnycezar(char znak, char znak2){
       }
     if(znak2 == a[x]){
       ret2 = x;
-      printf("%d\n",ret2);
     }
   }
   if(ret1>ret2){
@@ -99,9 +97,7 @@ int kryptojawnycezar(char znak, char znak2){
   }
 
 }
-char kryptobezcezar(){
 
-}
 char szyfrujafiniczny(char znak, int key1, int key2){
   int x,sum,z;
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
@@ -176,9 +172,9 @@ char odszyfrujafiniczny(char znak, int key1, int key2){
 ///////////////////////funkcje wykonujące/////////////////////
 //////////////////////////////////////////////////////////////
 int wykonuj(int parametr){
-  int kluczyk, kluczyk1, kluczyk2;
-  char znak,znak2,znak3,wynik;
-  FILE *fkey,*plain,*crypto,*decrypt;
+  int kluczyk, kluczyk1, kluczyk2,x;
+  char znak,znak2,znak3,znak4,wynik;
+  FILE *fkey,*plain,*crypto,*decrypt,*newkey,*slownik;
 
   switch (parametr) {
 
@@ -240,7 +236,8 @@ int wykonuj(int parametr){
       fclose(crypto);
       crypto=fopen("crypto.txt","r");
       kluczyk = kryptojawnycezar(znak, znak2);
-      printf("%d",kluczyk);
+      newkey=fopen("key-new.txt","w");
+      fprintf(newkey, "%d\n", kluczyk);
       while(crypto != NULL){
         znak3 = fgetc(crypto);
         if(feof(crypto)){
@@ -250,8 +247,35 @@ int wykonuj(int parametr){
         fprintf (decrypt, "%c", wynik);
       }
       break;
-    // case 4:     //kryptoanaliza w oparciu o kryptogram Cezar
+   case 4:     //kryptoanaliza w oparciu o kryptogram Cezar
+      //odczyt klucza
+      if((crypto=fopen("crypto.txt", "r"))==NULL) {
+       printf ("Nie mogę otworzyć pliku crypto.txt do odczytu!\n");
+       exit(1);
+       }
+       if((slownik=fopen("slownik.txt", "w"))==NULL) {
+        printf ("Nie mogę otworzyć pliku slownik.txt do zapisu!\n");
+        exit(1);
+        }
+      for(x=0;x<25;x++){
+       while(crypto != NULL){
+         znak4 = fgetc(crypto);
+         if(feof(crypto)){
+           break;
+         }
+         wynik = odszyfrujcezar(znak4, kluczyk);
+         fprintf(slownik, "%c", wynik);
+       }
+       kluczyk += 1;
+       if(kluczyk>25){
+         kluczyk -= 25;
+       }
+       fclose(crypto);
+       crypto=fopen("crypto.txt", "r");
+       fprintf(slownik, "**********************************\n");
 
+    }
+       break;
     case 5:     //szyfruj afiniczny
       //odczyt kluczy
       fkey=fopen("key.txt","r");
