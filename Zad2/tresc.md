@@ -1,4 +1,4 @@
-Zaprogramować szyfrowanie i odszyfrowywanie wiadomości przy użyciu szyfru Vigenere'a. Zakładamy, że tekst jawny jest ciągiem małych liter bez spacji, cyfr i znaków przestankowych. Taki tekst jawny trzeba przygotować z realnie dostępnego tekstu za pomocą odpowiedniego narzędzia.
+#Zaprogramować szyfrowanie i odszyfrowywanie wiadomości przy użyciu szyfru Vigenere'a. Zakładamy, że tekst jawny jest ciągiem małych liter bez spacji, cyfr i znaków przestankowych. Taki tekst jawny trzeba przygotować z realnie dostępnego tekstu za pomocą odpowiedniego narzędzia.
 
 Program o nazwie vigenere powinien umożliwiać wywołanie z linijki rozkazowej z następującymi opcjami:
 

@@ -3,7 +3,7 @@
 char przygotuj(){
   char a[25]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','r','s','t','u','v','w','x','y','z'};
   char d[25]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','R','S','T','U','V','W','X','Y','Z'};
-  FILE *original;
+  FILE *original,*plain;
   char znak,poprawiony;
   int i;
   original=fopen("orig.txt","r");
@@ -13,12 +13,15 @@ char przygotuj(){
       if(znak == d[i]){
         znak == a[i];
       }
+      if(znak < 'a' && znak > 'z'){
+        break;
+      }
+      poprawiony = szyfrujcezar(znak, kluczyk);
+      fprintf (crypto, "%c", poprawiony);
     }
     if(feof(original)){
       break;
     }
-    poprawiony = szyfrujcezar(znak, kluczyk);
-    fprintf (crypto, "%c", poprawiony);
   }
 }
 int int main() {
