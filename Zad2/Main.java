@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.*;
 public class Main{
 
   public void przygotuj(){
@@ -13,7 +13,10 @@ public class Main{
         tekst = "";
         while (tekst != null){
           tekst = input.readLine();
-          System.out.println(tekst);
+          if (tekst != null) {
+            tekst = tekst.replaceAll("\\W", "");
+            output.writeBytes(tekst + "\n");
+          }
         }
       } catch (IOException e) {
         System.out.println("Problem we/wy");
