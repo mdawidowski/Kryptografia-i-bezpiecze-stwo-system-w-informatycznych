@@ -2,6 +2,26 @@ import java.io.*;
 
 public class Main{
 
+  public byte[] kluczdoascii(){
+   String klucz = new String("");
+   File fkey = new File("key.txt");
+   try {
+   try {
+     Reader reader2 = new InputStreamReader(new FileInputStream(fkey),"ASCII");
+     BufferedReader key = new BufferedReader(reader2);
+   try {
+     klucz = key.readLine();
+     byte[] bytes = klucz.getBytes("US-ASCII");
+     for(int i=0; i<=klucz.length()-1; i++){
+       bytes[i] -= 97;
+     }
+     return bytes;
+   } catch (UnsupportedEncodingException e) {}
+   } catch (FileNotFoundException e) { System.out.println("Brak pliku z kluczem");  }
+   } catch (IOException e) { System.out.println("Problem we/wy"); }
+   return null;
+ }
+
   public void przygotuj(){
     File orig = new File("orig.txt");
     File plain = new File("plain.txt");
@@ -34,13 +54,19 @@ public class Main{
 
   public static void main(String[] args) {
     String[] x = args;
+    byte[] klucz;
     Main start = new Main();
     switch (x[0]) {
       case "-p":
       start.przygotuj();
       break;
       case "-e":
+      klucz = start.kluczdoascii();
+      for(int i=0;i<=klucz.length-1;i++){
+        System.out.println(klucz[i]);
+      }
       //szyfrowanie
+
       break;
       case "-k":
       //kryptoanaliza
