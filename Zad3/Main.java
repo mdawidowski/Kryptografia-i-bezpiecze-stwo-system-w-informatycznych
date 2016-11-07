@@ -126,11 +126,13 @@ public class Main{
           BufferedReader fin = new BufferedReader(reader);
           Writer writer = new OutputStreamWriter(new FileOutputStream(plain), "UTF-8");
           BufferedWriter fout = new BufferedWriter(writer);
+          String tekscik = "";
           tekst = fin.readLine();
           while(tekst!=null){
             tekst = tekst.replaceAll("[,.!?:;'-0123456789]", "");
             tekst = tekst.toLowerCase();
-            sB.append(tekst);
+            tekscik = tekst.substring(0, 35);
+            sB.append(tekscik);
             sB.append("\n");
             tekst = fin.readLine();
           }
