@@ -5,7 +5,6 @@ public class Main{
   public void kryptoanaliza(){
     File crypto = new File("crypto.txt");
     File decrypt = new File("decrypt.txt");
-    String tekst = "";
     try {
       try {
         try {
@@ -13,11 +12,29 @@ public class Main{
           BufferedReader fin = new BufferedReader(reader);
           Writer writer = new OutputStreamWriter(new FileOutputStream(decrypt), "US-ASCII");
           BufferedWriter fout = new BufferedWriter(writer);
-          tekst = fin.readLine();
-          while (tekst!=null) {
-            System.out.println(tekst);
+          int z = 20, y = 0;
+          String tekst = fin.readLine();
+          byte[][] tab = new byte[z][tekst.length()];
+          while(tekst!=null){
+            tab[y] = tekst.getBytes("US-ASCII");
+            y += 1;
             tekst = fin.readLine();
           }
+          byte[] bytes = new byte[48];
+          int[] bajtyhasla = new int[48];
+          for(int x = 0; x <= 19; x++){
+            for(y = 0; y <= 34; y++ ){
+              if(tab[x][y] < 58){
+                bytes[y] = 32;
+                bajtyhasla[y] = tab[x][y] - bytes[y];
+              }
+            }
+          }
+
+          for(y = 0; y<=34; y++){
+            System.out.print(" " + bajtyhasla[y]);
+          }
+          System.out.println();
         } catch (UnsupportedEncodingException e) {}
       } catch (FileNotFoundException e) {}
     } catch (IOException e) {}
