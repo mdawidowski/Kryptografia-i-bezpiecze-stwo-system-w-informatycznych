@@ -20,6 +20,7 @@ public class Main{
             y += 1;
             tekst = fin.readLine();
           }
+          fin.close();
           byte[] bytes = new byte[48];
           int[] bajtyhasla = new int[48];
           for(int x = 0; x <= 19; x++){
@@ -30,11 +31,22 @@ public class Main{
               }
             }
           }
-
-          for(y = 0; y<=34; y++){
-            System.out.print(" " + bajtyhasla[y]);
-          }
-          System.out.println();
+          int w =0;
+          char[] znak = new char[50];
+          StringBuilder sB = new StringBuilder(znak[w]);
+          String wyjscie = "";
+          for(int x = 0; x <= 19; x++){
+            for(y = 0; y <= 34; y++ ){
+                tab[x][y] -= bajtyhasla[y];
+                if (tab[x][y] < 97 && tab[x][y] > 33) { tab[x][y] += 25; }
+                znak[y] = (char)tab[x][y];
+                sB.append(znak[y]);
+              }
+              sB.append("\n");
+            }
+            wyjscie = sB.toString();
+            fout.write(wyjscie);
+            fout.close();
         } catch (UnsupportedEncodingException e) {}
       } catch (FileNotFoundException e) {}
     } catch (IOException e) {}
@@ -71,7 +83,6 @@ public class Main{
            if(wynik>122){ wynik-=25; }
            if(bytes[i]==10){ wynik = 10; z = 0; }
            znak[i] = (char)wynik;
-        //   System.out.println("klucz: " + klucz[z] + " litera: " + bytes[i] + " = " + wynik + " = " + znak[i]);
            record.append(znak[i]);
          }
          all = record.toString();
