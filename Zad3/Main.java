@@ -13,18 +13,20 @@ public class Main{
           Writer writer = new OutputStreamWriter(new FileOutputStream(decrypt), "US-ASCII");
           BufferedWriter fout = new BufferedWriter(writer);
           int z = 20, y = 0;
+
           String tekst = fin.readLine();
-          byte[][] tab = new byte[z][tekst.length()];
+          int dlugosctekstu = tekst.length();
+          byte[][] tab = new byte[z][dlugosctekstu];
           while(tekst!=null){
             tab[y] = tekst.getBytes("US-ASCII");
             y += 1;
             tekst = fin.readLine();
           }
           fin.close();
-          byte[] bytes = new byte[48];
-          int[] bajtyhasla = new int[48];
+          byte[] bytes = new byte[dlugosctekstu];
+          int[] bajtyhasla = new int[dlugosctekstu];
           for(int x = 0; x <= 19; x++){
-            for(y = 0; y <= 34; y++ ){
+            for(y = 0; y <= dlugosctekstu-1; y++ ){
               if(tab[x][y] < 58){
                 bytes[y] = 32;
                 bajtyhasla[y] = tab[x][y] - bytes[y];
@@ -32,11 +34,11 @@ public class Main{
             }
           }
           int w =0;
-          char[] znak = new char[50];
+          char[] znak = new char[dlugosctekstu];
           StringBuilder sB = new StringBuilder(znak[w]);
           String wyjscie = "";
           for(int x = 0; x <= 19; x++){
-            for(y = 0; y <= 34; y++ ){
+            for(y = 0; y <= dlugosctekstu-1; y++ ){
                 tab[x][y] -= bajtyhasla[y];
                 if (tab[x][y] < 97 && tab[x][y] > 33) { tab[x][y] += 25; }
                 znak[y] = (char)tab[x][y];
