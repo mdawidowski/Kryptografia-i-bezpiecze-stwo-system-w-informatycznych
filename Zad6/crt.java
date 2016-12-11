@@ -3,8 +3,7 @@ import java.io.*;
 public class crt{
   public static int NWD(int a,int b){
     int c;
-    while(b != 0)
-    {
+    while(b != 0){
         c = a % b;
         a = b;
         b = c;
@@ -22,6 +21,7 @@ public class crt{
     String tekst = fin.readLine(),a="",m="";
     int[] p = new int[20];
     int[] b = new int[20];
+    int[] c = new int[20];
     int x=0,mzero,azero;
     while (tekst!=null) {
       String[] part = tekst.split(" ");
@@ -42,8 +42,23 @@ public class crt{
       }
       x++;
     }
+    if (x <= 1) {
+      System.out.println("Trochę mało danych");
+      System.exit(1);
+    }
+    int bigp=0,bigb=0;
+    for (int y=0;y<x;y++) {
+      bigp += p[y];
+      bigb += b[y];
+    }
     mzero = 1;
-
+    if (bigp > bigb) {
+        for (int y=0;y<x ;y++ ) {
+          c[y] = b[y];
+          b[y] = p[y];
+          p[y] = c[y];
+        }
+    }
     for (int z=0; z<x; z++) {
       mzero *= b[z];
     }
@@ -52,7 +67,10 @@ public class crt{
       azero = azero / p[z];
     }
     azero = mzero - azero;
-    System.out.println(azero + " " + mzero);
+    if (azero <= 0 || mzero <= 0) {
+      System.out.println("Wystąpił błąd. Jedna z wartości jest mniejsza lub równa 0");
+      System.exit(1);
+    }
     fin.close();
     fout.write(azero + " " + mzero);
     fout.close();
