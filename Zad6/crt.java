@@ -38,18 +38,23 @@ public class crt{
       int check = NWD(p[x],b[x]);
       if (check != 1) {
         System.out.println("Cyfry nie są względnie pierwsze parami");
+        System.exit(1);
       }
       x++;
     }
     mzero = 1;
-    azero = 0;
+
     for (int z=0; z<x; z++) {
       mzero *= b[z];
-      azero += p[z] % b[z];
     }
+    azero = mzero;
+    for (int z=0;z<x ;z++ ) {
+      azero = azero / p[z];
+    }
+    azero = mzero - azero;
     System.out.println(azero + " " + mzero);
     fin.close();
-    fout.write(mzero + " " + azero);
+    fout.write(azero + " " + mzero);
     fout.close();
   }
 }
