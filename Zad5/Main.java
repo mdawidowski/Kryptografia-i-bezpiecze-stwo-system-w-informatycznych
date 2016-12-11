@@ -1,32 +1,41 @@
-import java.io.File;
-import java.io.IOException;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
+import java.security.Security;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
-public class Main{
-  public static void main(String args[])throws IOException{
-    BufferedImage image = null;
-    File f = null;
+public class Main {
 
-    try{
-      f = new File("plain.bmp");
-      image = ImageIO.read(f);
-      int x = image.getWidth();
-      int y = image.getHeight();
-      System.out.println(x + " " + y);
-      int color = image.getRGB(500, 500);
-      color += 2;
-      image.setRGB(0, 0, color);
-      System.out.println(color);
-    }catch(IOException e){
-      System.out.println("Error: "+e);
+    public static void main(String[] args) throws Exception {
+
+  byte[] input = "www.javacodegeeks.com".getBytes();
+
+  byte[] keyBytes = new byte[]{0x01, 0x23, 0x45, 0x67, (byte) 0x89, (byte) 0xab, (byte) 0xcd,(byte) 0xef};
+
+  SecretKeySpec key = new SecretKeySpec(keyBytes, "DES");
+
+  Cipher cipher = Cipher.getInstance("DES/ECB/PKCS7Padding", "BC");
+
+  System.out.println("input : " + new String(input));
+
+  cipher.init(Cipher.ENCRYPT_MODE, key);
+
+  byte[] cipherText = new byte[cipher.getOutputSize(input.length)];
+
+  int ctLength = cipher.update(input, 0, input.length, cipherText, 0);
+
+  ctLength += cipher.doFinal(cipherText, ctLength);
+
+  System.out.println("cipher: " + new String(cipherText).getBytes("UTF-8").toString() + " bytes: " + ctLength);
+
+  cipher.init(Cipher.DECRYPT_MODE, key);
+
+  byte[] plainText = new byte[cipher.getOutputSize(ctLength)];
+
+  int ptLength = cipher.update(cipherText, 0, ctLength, plainText, 0);
+
+  ptLength += cipher.doFinal(plainText, ptLength);
+
+  System.out.println("plain : " + new String(plainText) + " bytes: " + ptLength);
+
     }
 
-    try{
-      f = new File("obraz1.bmp");
-      ImageIO.write(image, "bmp", f);
-    }catch(IOException e){
-      System.out.println("Error: "+e);
-    }
-  }
 }
