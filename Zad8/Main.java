@@ -10,31 +10,31 @@ import java.util.Random;
 
 public class Main {
 
-    private static final String WEJSCIE = "wejscie.txt";
-    private static final String WYJSCIE = "wyjscie.txt";
+    private static final String input = "input.txt";
+    private static final String output = "output.txt";
 
     public static void main(String[] args) {
 
         // TEST FERMATA
         if (args.length == 1 && args[0].equals("-f")) {
-            String wejscie = czytajPlik(WEJSCIE);
-            List<BigInteger> lista = konwertujStringNaLiczby(wejscie);
+            String input = czytajPlik(input);
+            List<BigInteger> lista = StringToInt(input);
             String wynik = testFermata(lista.get(0));
 
             System.out.println(wynik);
-            zapiszDoPliku(WYJSCIE, wynik);
+            zapis(output, wynik);
 
             return;
         }
 
         // RABIN-MILLER
         if (args.length == 0) {
-            String wejscie = czytajPlik(WEJSCIE);
-            List<BigInteger> lista = konwertujStringNaLiczby(wejscie);
+            String input = czytajPlik(input);
+            List<BigInteger> lista = StringToInt(input);
             String wynik = rabinMiller(lista);
 
             System.out.println(wynik);
-            zapiszDoPliku(WYJSCIE, wynik);
+            zapis(output, wynik);
 
             return;
         }
@@ -210,7 +210,7 @@ public class Main {
         }
     }
 
-    private static List<BigInteger> konwertujStringNaLiczby(String string) {
+    private static List<BigInteger> StringToInt(String string) {
         String stringLiczby = "";
 
         for (char znak : string.toCharArray()) {
@@ -231,11 +231,8 @@ public class Main {
         return listaBigInt;
     }
 
-    private static void zapiszDoPliku(String nazwaPliku, String tekst) {
-        try {
+    private static void zapis(String nazwaPliku, String tekst) throws IOException {
             Files.write(Paths.get(nazwaPliku), tekst.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }
