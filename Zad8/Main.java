@@ -10,31 +10,31 @@ import java.util.Random;
 
 public class Main {
 
-    private static final String WEJSCIE = "wejscie.txt";
-    private static final String WYJSCIE = "wyjscie.txt";
+    private static final String input = "wejscie.txt";
+    private static final String output = "wyjscie.txt";
 
     public static void main(String[] args) {
 
         // TEST FERMATA
         if (args.length == 1 && args[0].equals("-f")) {
-            String wejscie = czytajPlik(WEJSCIE);
+            String wejscie = czytajPlik(input);
             List<BigInteger> lista = konwertujStringNaLiczby(wejscie);
             String wynik = testFermata(lista.get(0));
 
             System.out.println(wynik);
-            zapiszDoPliku(WYJSCIE, wynik);
+            zapiszDoPliku(output, wynik);
 
             return;
         }
 
         // RABIN-MILLER
         if (args.length == 0) {
-            String wejscie = czytajPlik(WEJSCIE);
+            String wejscie = czytajPlik(input);
             List<BigInteger> lista = konwertujStringNaLiczby(wejscie);
             String wynik = rabinMiller(lista);
 
-            System.out.println(wynik);
-            zapiszDoPliku(WYJSCIE, wynik);
+            System.out.println("Wynik zapisano w pliku wyjscie.txt");
+            zapiszDoPliku(output, wynik);
 
             return;
         }
