@@ -22,7 +22,7 @@ public class Main {
             String wynik = testFermata(lista.get(0));
 
             System.out.println(wynik);
-            zapiszDoPliku(output, wynik);
+            zapis(output, wynik);
 
             return;
         }
@@ -34,7 +34,7 @@ public class Main {
             String wynik = rabinMiller(lista);
 
             System.out.println("Wynik zapisano w pliku wyjscie.txt");
-            zapiszDoPliku(output, wynik);
+            zapis(output, wynik);
 
             return;
         }
@@ -231,7 +231,7 @@ public class Main {
         return listaBigInt;
     }
 
-    private static void zapiszDoPliku(String nazwaPliku, String tekst) {
+    private static void zapis(String nazwaPliku, String tekst) {
         try {
             Files.write(Paths.get(nazwaPliku), tekst.getBytes());
         } catch (IOException e) {
