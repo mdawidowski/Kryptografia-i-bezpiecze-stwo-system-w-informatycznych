@@ -18,7 +18,7 @@ public class Main {
         // TEST FERMATA
         if (args.length == 1 && args[0].equals("-f")) {
             String wejscie = czytajPlik(input);
-            List<BigInteger> lista = konwertujStringNaLiczby(wejscie);
+            List<BigInteger> lista = StringToInt(wejscie);
             String wynik = testFermata(lista.get(0));
 
             System.out.println(wynik);
@@ -30,7 +30,7 @@ public class Main {
         // RABIN-MILLER
         if (args.length == 0) {
             String wejscie = czytajPlik(input);
-            List<BigInteger> lista = konwertujStringNaLiczby(wejscie);
+            List<BigInteger> lista = StringToInt(wejscie);
             String wynik = rabinMiller(lista);
 
             System.out.println("Wynik zapisano w pliku wyjscie.txt");
@@ -210,7 +210,7 @@ public class Main {
         }
     }
 
-    private static List<BigInteger> konwertujStringNaLiczby(String string) {
+    private static List<BigInteger> StringToInt(String string) {
         String stringLiczby = "";
 
         for (char znak : string.toCharArray()) {
