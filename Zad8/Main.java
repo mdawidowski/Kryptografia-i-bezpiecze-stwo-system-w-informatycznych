@@ -231,8 +231,11 @@ public class Main {
         return listaBigInt;
     }
 
-    private static void zapis(String nazwaPliku, String tekst) throws IOException {
+    private static void zapis(String nazwaPliku, String tekst) {
+        try {
             Files.write(Paths.get(nazwaPliku), tekst.getBytes());
-
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
